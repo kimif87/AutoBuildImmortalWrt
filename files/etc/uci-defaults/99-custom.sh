@@ -7,7 +7,7 @@ echo "Starting 99-custom.sh at $(date)" >>$LOGFILE
 # 因为本项目中 单网口模式是dhcp模式 直接就能上网并且访问web界面 避免新手每次都要修改/etc/config/network中的静态ip
 # 当你刷机运行后 都调整好了 你完全可以在web页面自行关闭 wan口防火墙的入站数据
 # 具体操作方法：网络——防火墙 在wan的入站数据 下拉选项里选择 拒绝 保存并应用即可。
-uci set firewall.@zone[1].input='ACCEPT'
+#uci set firewall.@zone[1].input='ACCEPT'
 
 # 设置主机名映射，解决安卓原生 TV 无法联网的问题
 uci add dhcp domain
@@ -30,7 +30,7 @@ for iface in /sys/class/net/*; do
     if [ -e "$iface/device" ] && echo "$iface_name" | grep -Eq '^eth|^en'; then
         ifnames="$ifnames $iface_name"
     fi
-done
+已完成
 ifnames=$(echo "$ifnames" | awk '{$1=$1};1')
 
 count=$(echo "$ifnames" | wc -w)
@@ -85,11 +85,11 @@ elif [ "$count" -gt 1 ]; then
         echo "error：cannot find device 'br-lan'." >>$LOGFILE
     else
         # 删除原有ports
-        uci -q delete "network.$section.ports"
+        uci -q 删除 "network.$section.ports"
         # 添加LAN接口端口
         for port in $lan_ifnames; do
             uci add_list "network.$section.ports"="$port"
-        done
+        已完成
         echo "Updated br-lan ports: $lan_ifnames" >>$LOGFILE
     fi
 
@@ -146,7 +146,7 @@ if command -v dockerd >/dev/null 2>&1; then
             echo "Deleting forwarding @forwarding[$idx]"
             uci delete firewall.@forwarding[$idx]
         fi
-    done
+    已完成
     # 提交删除
     uci commit firewall
     # 追加新的 zone + forwarding 配置
@@ -185,7 +185,7 @@ uci commit
 
 # 设置编译作者信息
 FILE_PATH="/etc/openwrt_release"
-NEW_DESCRIPTION="Packaged by wukongdaily"
+NEW_DESCRIPTION="Packaged by KIMI.F"
 sed -i "s/DISTRIB_DESCRIPTION='[^']*'/DISTRIB_DESCRIPTION='$NEW_DESCRIPTION'/" "$FILE_PATH"
 
 # 若luci-app-advancedplus (进阶设置)已安装 则去除zsh的调用 防止命令行报 /usb/bin/zsh: not found的提示
